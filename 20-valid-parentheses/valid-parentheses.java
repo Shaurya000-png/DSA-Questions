@@ -1,32 +1,23 @@
 class Solution {
     public boolean isValid(String s) {
-
-        Stack<Character> stack = new Stack<>();
+        Stack <Character> stack = new Stack<>();
 
         for (char ch : s.toCharArray()) {
-            if (ch == '(' || ch == '{' || ch == '[') {
+            boolean isOpening = (ch == '(' || ch == '{' || ch == '[');
+            boolean isClosing = (ch == ')' || ch == '}' || ch == ']');
+
+            if (isOpening) {
                 stack.push(ch);
-            } else if (ch == ')' || ch == '}' || ch == ']') {
-                
-                if (stack.isEmpty()) {
-                    return false;
-                }
+            } else if (isClosing){
+                if (stack.isEmpty()) return false;
+
 
                 char top = stack.pop();
 
-                if (top != '(' && ch == ')') {
-                    return false;
-                }
+                boolean isMismatch = ( top == '(' && ch != ')' ) || ( top == '{' && ch != '}' ) || ( top == '[' && ch != ']' );
 
-                if (top != '{' && ch == '}') {
-                    return false;
-                }
-
-                if (top != '[' && ch == ']') {
-                    return false;
-                }
+                if (isMismatch) return false;
             }
-
         }
         return stack.isEmpty();
     }
